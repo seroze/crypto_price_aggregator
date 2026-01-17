@@ -1,0 +1,7 @@
+- use virtual environments to avoid clash with other site packages 
+- unlias if you have aliased your python call otherwise it will pick up global python and it will look at global site packages 
+- when you run python -m venv it'll also copy python to .venv folder along with pyvenv.config which tells this version of python where to look for site packages if it doesn't find them here it will look at the global version 
+- use unlias python for removing an alias 
+- use hash -r to refresh aliases 
+- use source activate -venv to actiavte the venv 
+-

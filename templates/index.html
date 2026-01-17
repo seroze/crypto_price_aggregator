@@ -66,5 +66,18 @@
                 ).toLocaleTimeString();
             };
         </script>
+        <script>
+            // Function to load history on start
+            async function loadHistory(symbol) {
+                const response = await fetch(`/history/${symbol}`);
+                const data = await response.json();
+                // You can loop through data and append to a 'History' list in your UI
+                console.log(`History for ${symbol}:`, data);
+            }
+
+            // Call it for your symbols
+            // loadHistory("BTCUSDT");
+            // loadHistory("ETHUSDT");
+        </script>
     </body>
 </html>

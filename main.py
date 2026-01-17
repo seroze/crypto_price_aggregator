@@ -103,5 +103,17 @@ async def websocket_endpoint(websocket: WebSocket):
 async def get_ui():
     return Path("templates/index.html").read_text()
 
+# TODO: make it return HTMLResponse
+@app.get("/history/{symbol}")
+async def get_history(symbol: str):
+    async with aiosqlite.connect("crypto_history.db") as db:
+        # Get the 20 most recent entries for this symbol
+        async with db.execute(
+            "SELECT price, timestamp FROM price_history WHERE symbol = ? ORDER BY timestamp DESC LIMIT 20",
+            (symbol,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [{"price": r[0], "time": r[1]} for r in rows]
+
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
