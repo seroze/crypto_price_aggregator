@@ -2,8 +2,8 @@
 
 User Requirements: 
 - Provide a UI where user can list down an instrument and it'll show it's price from kraken,coinbase, bitstamp
-- Instrument price should be updated every 2s
-- Store the price history in a database for analytics purpose 
+✅ Instrument price should be updated every 2s
+✅ Store the price history in a database for analytics purpose 
 
 Frontend: 
 - UI page that takes in a symbol and displays it's live price from 3 sources

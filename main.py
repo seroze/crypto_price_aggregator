@@ -5,6 +5,9 @@ import json
 from datetime import datetime
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from typing import List,Any
+from fastapi.responses import HTMLResponse
+from pathlib import Path
+import uvicorn
 
 app = FastAPI()
 
@@ -81,9 +84,9 @@ async def startup_event():
     asyncio.create_task(price_fetcher_loop())
 
 
-@app.get('/')
-async def get_root():
-    return {'message': 'Crypto Tracker is running. Connect to /ws for live data.'}
+# @app.get('/')
+# async def get_root():
+#     return {'message': 'Crypto Tracker is running. Connect to /ws for live data.'}
 
 
 @app.websocket('/ws')
@@ -94,3 +97,11 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text() # Keep connection alive
     except WebSocketDisconnect:
         connectionManager.disconnect(websocket)
+
+
+@app.get("/", response_class=HTMLResponse)
+async def get_ui():
+    return Path("templates/index.html").read_text()
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="0.0.0.0", port=8000)
