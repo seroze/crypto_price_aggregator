@@ -4,4 +4,5 @@
 - use unlias python for removing an alias 
 - use hash -r to refresh aliases 
 - use source activate -venv to actiavte the venv 
--
+- This will show a list of folders Python is searching
+  - ./.venv/bin/python -c "import sys; print(sys.path)"
