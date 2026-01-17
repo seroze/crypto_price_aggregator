@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Live Crypto Tracker</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 40px;
+                background: #f4f4f9;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: white;
+            }
+            th,
+            td {
+                padding: 12px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+            th {
+                background-color: #007bff;
+                color: white;
+            }
+            .price-up {
+                color: green;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Live Crypto Prices (Async)</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Price (USD)</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody id="price-table"></tbody>
+        </table>
+
+        <script>
+            const ws = new WebSocket("ws://localhost:8000/ws");
+            const tableBody = document.getElementById("price-table");
+            const priceMap = {};
+
+            ws.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+
+                if (!priceMap[data.symbol]) {
+                    const row = tableBody.insertRow();
+                    priceMap[data.symbol] = row;
+                    row.insertCell(0).innerText = data.symbol;
+                    row.insertCell(1);
+                    row.insertCell(2);
+                }
+
+                const row = priceMap[data.symbol];
+                row.cells[1].innerText = `$${data.price.toLocaleString()}`;
+                row.cells[1].className = "price-up";
+                row.cells[2].innerText = new Date(
+                    data.time,
+                ).toLocaleTimeString();
+            };
+        </script>
+    </body>
+</html>

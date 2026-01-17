@@ -17,7 +17,7 @@ Backend:
   - rest api for displaying historical price / should we use websocket here too Eg: to show last 30 prices
     - GET /aggregator/v1/get_historical_prices/symbols/{symbol}
 
-- Component design
+- Component design (Experimental)
   - backend will have three async loops. 
     - async loop 1
       - fetch price for symbol from each of the three exchanges. Instead of waiting for one API call to finish before calling the next we wait for the slowest one to respond. 
